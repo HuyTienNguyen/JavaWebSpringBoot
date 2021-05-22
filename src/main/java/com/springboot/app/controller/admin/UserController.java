@@ -12,24 +12,24 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin/user")
 public class UserController {
 
-	@RequestMapping("/")
+	@RequestMapping("")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("frontend/user/index");
+		modelAndView.setViewName("views/admin-user/index");
 		return modelAndView;
 
 	}
 	@RequestMapping("/add")
 	public ModelAndView add() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("frontend/user/add");
+		modelAndView.setViewName("views/admin-user/add");
 		return modelAndView;
 
 	}
 	@RequestMapping("/edit")
 	public ModelAndView edit() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("frontend/user/edit");
+		modelAndView.setViewName("views/admin-user/edit");
 		return modelAndView;
 
 	}
