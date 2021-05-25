@@ -27,6 +27,7 @@
   <link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
   <!-- summernote -->
   <link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.min.css}">
+  <link rel="stylesheet" th:href="@{/dist/css/jquery.dataTables.min.css}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -213,7 +214,7 @@
                with font-awesome or any other icon font library -->
  
           <li class="nav-item">
-            <a th:href="@{admin/cate}" class="nav-link">
+            <a th:href="@{/admin/cate}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Danh mục
@@ -842,6 +843,8 @@
 
 <!-- jQuery -->
 <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script> 
+
 <!-- jQuery UI 1.11.4 -->
 <script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -855,8 +858,8 @@
 <!-- Sparkline -->
 <script th:src="@{/plugins/sparklines/sparkline.js}"></script>
 <!-- JQVMap -->
-<script  th:src="@{/plugins/jqvmap/jquery.vmap.min.js}"></script>
-<script th:src="@{/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+
+
 <!-- jQuery Knob Chart -->
 <script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
 <!-- daterangepicker -->
@@ -874,5 +877,7 @@
 <script th:src="@{/dist/js/demo.js}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script th:src="@{/dist/js/pages/dashboard.js}"></script>
+<script th:src="@{/dist/js/pages/datatable.js}"></script>
+<th:block layout:fragment="script" ></th:block>
 </body>
 </html>

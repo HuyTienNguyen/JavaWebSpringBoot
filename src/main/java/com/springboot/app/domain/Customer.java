@@ -1,4 +1,4 @@
-package com.springboot.app.entity;
+package com.springboot.app.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

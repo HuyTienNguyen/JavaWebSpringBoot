@@ -1,11 +1,20 @@
 package com.springboot.app.services;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-import com.springboot.app.entity.Categories;
+import com.springboot.app.domain.Category;
+import com.springboot.app.dto.CategoryDto;
 
 
-public interface CategoryService extends GenericService<Categories, Long> {
+public interface CategoryService extends GenericService<Category, Long> {
+	List<CategoryDto> findAll();
+
+	CategoryDto saveOrUpdate(CategoryDto entity, Long id);
+
+	CategoryDto getOne(Long id);
+
+	void delete(CategoryDto entity);
+
+	void deleteById(Long id);
 	
 }
