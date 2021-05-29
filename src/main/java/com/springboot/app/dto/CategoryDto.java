@@ -2,14 +2,15 @@ package com.springboot.app.dto;
 
 
 import java.util.Set;
+
 import javax.persistence.ManyToMany;
+
 import com.springboot.app.domain.Category;
 import com.springboot.app.domain.Product;
 
 public class CategoryDto   {	
 	private Long id;
-	private String name;
-	
+	private String name;	
 
 	private Long parent_id;
 	private Category parent;

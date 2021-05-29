@@ -10,5 +10,5 @@ import com.springboot.app.domain.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-Long removeByName(String name);
+	Long removeByName(String name);
 }

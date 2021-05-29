@@ -26,7 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<CategoryDto> findAll() {
 		 String sql = "select new com.springboot.app.dto.CategoryDto(entity) from Category as entity where (1=1) ";
+		 // select * from categorry as entity w
+		 // getlisst
 		 Query q =  entityManager.createQuery(sql,CategoryDto.class);
+		 
 		 return q.getResultList();
 	}
 	@SuppressWarnings("unchecked")
@@ -35,7 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
 		 Query q =  entityManager.createQuery(sql,CategoryDto.class);
 		 return q.getResultList();
 	}
-
+	@SuppressWarnings("unchecked")
+	public Boolean isCateHaveChildren(Long id) {
+		 String sql = "select count(entity.id) from Category as entity where EXISTS (SELECT 1 From Category as c WHERE c.parent_id =entity.id)AND entity.id= "+id;
+		 Long  count = (Long) entityManager.createQuery(sql).getSingleResult();		
+		 return (count.equals(0L)?false:true);		 
+	}
 	@Override
 	public CategoryDto saveOrUpdate(CategoryDto dto, Long id) {
 		
