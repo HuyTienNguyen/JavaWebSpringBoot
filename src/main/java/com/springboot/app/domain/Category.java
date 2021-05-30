@@ -24,7 +24,7 @@ public class Category implements Serializable  {
 	private int status;
 	@Column(length = 1)
 	private Long parent_id;
-	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id", nullable = true,insertable = false,updatable = false)
     private Category parent;
 	

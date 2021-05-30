@@ -19,7 +19,7 @@
 				</div>
 				<div class= "row justify-content-end">
 			        
-			        <div class= "col-md-3 mb-md-2">
+			        <div class= "col-3 mb-2">
 			            <a href="">
 			                <span>
 			                <a onclick="event.preventDefault();addCate();" href="#" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm danh mục </span></a>       
@@ -36,9 +36,9 @@
 								<tr>
 									<th width="4%">STT</th>
 									<th>Name</th>
-									<th width="15%">Status</th>
+									<th width="8%">Status</th>
 									<th width="8%">ParentCate</th>
-									<th width="8%">Action</th>
+									<th width="15%">Action</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -136,14 +136,19 @@
 
 				"columns": [
 
-					{
-						"data": "id"
-					},
+					{ "data": null,"sortable": false, 
+					       render: function (data, type, row, meta) {
+					                 return meta.row + meta.settings._iDisplayStart + 1;
+					                }  
+					 },
 					{
 						"data": "name"
 					},
 					{
-						"data": "status"
+						"data": "status",	
+						render : function (data, type, row) {
+				             return data == '1' ? 'Hiện' : 'Ẩn'
+				          }
 					},
 					{
 						"defaultContent": "",
@@ -151,13 +156,9 @@
 					},
 					{
 						"data": "id",
-						render: function(
-							data,
-							type,
-							full) {
-							return '<a onclick="event.preventDefault();editCate('+data+');" class="btn btn-info btn-sm" href="#">'
-								+ 'Edit'
-								+ '</a>';
+						render: function(data,type,full) {
+							return '<a onclick="event.preventDefault();editCate('+data+');" class="btn btn-info btn-sm mr-2" href="#">'+ 'Edit'	+ '</a>'
+							;
 						}
 					},
 
@@ -194,7 +195,7 @@
 				             // window.setTimeout(function(){window.location.reload()}, 1000);            
 				           },
 				        error: function(data) {
-				          console.log(data)
+				          console.log(data.responseText)
 				            var errors = $.parseJSON(data.responseText);
 				           
 				            $('#addUnit-errors').html('');
@@ -237,6 +238,25 @@
 		function editCate(id) {
 			 $.ajax({
 		          type: 'GET',
+		          url: '/sample/admin/cate/' + id,
+		          success: function(data) { 
+		        	 console.log(data)
+		        	 $("#editUnit-error-bag").hide();
+				      $("#editUnit-success-bag").hide();
+				      $('#modal').modal('show');
+				      $('.modal-title').text('Sửa đơn vị tính');
+				      $('#frmCate').attr('method','PUT');
+				      $("#frmCate input[name=name]").val(data.name);
+				      $("#frmCate select[name=status]").val(data.status);
+				      $("#frmCate input[name=cateId]").val(data.id);
+				      $("#frmCate select[name=parent_id]").val(data.parent_id);
+		          }
+			  
+			  });
+			}
+		function changeStatusCate(id) {
+			 $.ajax({
+		          type: 'DELETE',
 		          url: '/sample/admin/cate/' + id,
 		          success: function(data) { 
 		        	 console.log(data)

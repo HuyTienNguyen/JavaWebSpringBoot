@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,24 @@ public class CategoryServiceImpl implements CategoryService {
 		 Query q =  entityManager.createQuery(sql,CategoryDto.class);
 		 return q.getResultList();
 	}
+	@SuppressWarnings("unchecked")
+	public Boolean isCateHaveChildren(Long id) {
+		 String sql = "select count(entity.id) from Category as entity where EXISTS (SELECT 1 From Category as c WHERE c.parent_id =entity.id)AND entity.id= :id";
+		 TypedQuery<Long> query = entityManager.createQuery(sql, Long.class);
+		 query.setParameter("id", id);
+		Long count = query.getSingleResult();		
+		 return (count>0L)?true:false;		 
+	}
+	
+
+	
+	@SuppressWarnings("unchecked")
+	public Boolean checkNameCateExists(String name) {
+		Long result = categoryRepository.checkcate(name);
+		
+		 return (result==0?false:true);		 
+	}
+	
 
 	@Override
 	public CategoryDto saveOrUpdate(CategoryDto dto, Long id) {

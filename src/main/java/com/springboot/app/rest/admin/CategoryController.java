@@ -1,6 +1,10 @@
 package com.springboot.app.rest.admin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -44,10 +48,17 @@ public class CategoryController {
 		return new ResponseEntity<>( categoryService.findAllWithNoChidren(),HttpStatus.OK);
 	}
 	
+	@SuppressWarnings("unused")
 	@RequestMapping(value="",method=RequestMethod.POST)
-	public ResponseEntity<CategoryDto> save(@RequestBody  CategoryDto dto ) {	
-		
+	public ResponseEntity save(@RequestBody  CategoryDto dto ) {	
+		Map<String,List<String>>errors = new HashMap<String, List<String>>();
+		errors.put("error",Arrays.asList("name da ton tai","code da ton tai") );
+		if(1==1) {
+			return  ResponseEntity.status(HttpStatus.FORBIDDEN)
+		            .body(errors);
+		}
 		CategoryDto result = categoryService.saveOrUpdate(dto, null);
+		
         return new ResponseEntity<CategoryDto>(result, (result != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 	
@@ -69,6 +80,16 @@ public class CategoryController {
 	 public ResponseEntity<Boolean>  removeCategory(@PathVariable("id") Long id) {
 		 categoryService.deleteById(id);
 	        return new ResponseEntity<>(true, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/checkChildren/{id}", method = RequestMethod.GET)
+	 public ResponseEntity<Boolean>  check(@PathVariable("id") Long id) {
+		Boolean result= categoryService.isCateHaveChildren(id);
+	        return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/checkName/{name}", method = RequestMethod.GET)
+	 public ResponseEntity<Boolean>  checkNameCateNotExists(@PathVariable("name") String name) {
+		Boolean result =categoryService.checkNameCateExists(name);
+	       return new ResponseEntity<>(result,(result==false)?HttpStatus.OK: HttpStatus.BAD_REQUEST);
 	}
 	
 }
