@@ -22,94 +22,95 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryRepository categoryRepository;
 	@Autowired
-    EntityManager entityManager;
+	EntityManager entityManager;
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CategoryDto> findAll() {
-		 String sql = "select new com.springboot.app.dto.CategoryDto(entity) from Category as entity where (1=1) ";
-		 Query q =  entityManager.createQuery(sql,CategoryDto.class);
-		 return q.getResultList();
+		String sql = "select new com.springboot.app.dto.CategoryDto(entity) from Category as entity where (1=1) ";
+		// select * from categorry as entity w
+		// getlisst
+		Query q = entityManager.createQuery(sql, CategoryDto.class);
+
+		return q.getResultList();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<CategoryDto> findAllWithNoChidren() {
-		 String sql = "select new com.springboot.app.dto.CategoryDto(entity) from Category as entity where entity.parent_id IS NULL ";
-		 Query q =  entityManager.createQuery(sql,CategoryDto.class);
-		 return q.getResultList();
+		String sql = "select new com.springboot.app.dto.CategoryDto(entity) from Category as entity where entity.parent_id IS NULL ";
+		Query q = entityManager.createQuery(sql, CategoryDto.class);
+		return q.getResultList();
 	}
+
 	@SuppressWarnings("unchecked")
 	public Boolean isCateHaveChildren(Long id) {
-		 String sql = "select count(entity.id) from Category as entity where EXISTS (SELECT 1 From Category as c WHERE c.parent_id =entity.id)AND entity.id= :id";
-		 TypedQuery<Long> query = entityManager.createQuery(sql, Long.class);
-		 query.setParameter("id", id);
-		Long count = query.getSingleResult();		
-		 return (count>0L)?true:false;		 
-	}
-	
 
-	
+		String sql = "select count(entity.id) from Category as entity where EXISTS (SELECT 1 From Category as c WHERE c.parent_id =entity.id)AND entity.id= :id";
+		TypedQuery<Long> query = entityManager.createQuery(sql, Long.class);
+		query.setParameter("id", id);
+		Long count = query.getSingleResult();
+		return (count > 0L) ? true : false;
+	}
+
 	@SuppressWarnings("unchecked")
 	public Boolean checkNameCateExists(String name) {
 		Long result = categoryRepository.checkcate(name);
-		
-		 return (result==0?false:true);		 
-	}
-	
 
-	@Override
+		return (result == 0 ? false : true);
+	}
+
 	public CategoryDto saveOrUpdate(CategoryDto dto, Long id) {
-		
+
 		// TODO Auto-generated method stub
-		if(dto!=null) {
-			Category entity =null;
-			if(id!=null) {
-				if(dto.getId() != null && dto.getId().equals(id)==false) {
+		if (dto != null) {
+			Category entity = null;
+			if (id != null) {
+				if (dto.getId() != null && dto.getId().equals(id) == false) {
 					return null;
 				}
-				entity = categoryRepository.getOne(id);		
+				entity = categoryRepository.getOne(id);
 			}
-			if(entity ==null) {
-				entity =new Category();
+			if (entity == null) {
+				entity = new Category();
 			}
 			entity.setName(dto.getName());
-			entity.setStatus(dto.getStatus());		
+			entity.setStatus(dto.getStatus());
 			entity.setParent_id(dto.getParent_id());
-			entity=categoryRepository.save(entity);		
-			if(entity!=null)
+			entity = categoryRepository.save(entity);
+			if (entity != null)
 				return new CategoryDto(entity);
 		}
-		
-			return null;
+
+		return null;
 
 	}
 
 	@Override
 	public CategoryDto getOne(Long id) {
-		// TODO Auto-generated method stub		
-		
+		// TODO Auto-generated method stub
+
 		Category cate = categoryRepository.getOne(id);
-			if(cate!=null)	   
-		    return new CategoryDto(cate);				
+		if (cate != null)
+			return new CategoryDto(cate);
 		return null;
 	}
 
 	@Override
 	public void delete(CategoryDto entity) {
-		if(entity!=null)
-		categoryRepository.removeByName(entity.getName());
-		
+		if (entity != null)
+			categoryRepository.removeByName(entity.getName());
+
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		if(id!=null)
-		 categoryRepository.deleteById(id);
-		
+		if (id != null)
+			categoryRepository.deleteById(id);
+
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
